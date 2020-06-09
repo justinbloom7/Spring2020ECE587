@@ -31,7 +31,7 @@ def buildScenarioSet(il1Sets, il1Ways, dl1Sets, dl1Ways, ul2Sets, ul2Ways):
    replTypes = [ 'l', 'c' ] 
    scenarioSet = []
 
-   for ul2Repl in [ 'l' ]: #replTypes:
+   for ul2Repl in replTypes:
       for dl1Repl in replTypes:
          for il1Repl in replTypes:
             params = {'il1Sets': il1Sets, 'il1Ways': il1Ways, 'il1Repl': il1Repl,
