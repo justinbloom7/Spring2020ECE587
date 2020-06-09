@@ -1,1 +1,10 @@
-./Run.pl -db ./bench.db -dir results/gcc1 -benchmark gcc -sim ~/edu/ECE587/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -cache:il1 il1:512:64:2:c -cache:dl1 dl1:1024:64:8:c -cache:il2 dl2 -cache:dl2 ul2:2048:64:4:c" >& results/gcc1.txt
+#!/bin/bash
+
+./Run.pl -db ./bench.db -dir results/gcc1 -benchmark gcc -sim ~/edu/ECE587/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -cache:il1 il1:${1}:64:${2}:${3} -cache:dl1 dl1:${4}:64:${5}:${6} -cache:il2 dl2 -cache:dl2 ul2:${7}:64:${8}:${9}" >& results/tempout.txt
+
+SIMIPC=$(grep sim_IPC results/tempout.txt | tr -s " " | cut -f 2 -d " ")
+IL1REPL=$(grep il1.repl_rate results/tempout.txt | tr -s " " | cut -f 2 -d " ")
+DL1REPL=$(grep dl1.repl_rate results/tempout.txt | tr -s " " | cut -f 2 -d " ")
+UL2REPL=$(grep ul2.repl_rate results/tempout.txt | tr -s " " | cut -f 2 -d " ")
+
+echo ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} ${9} ${SIMIPC} ${IL1REPL} ${DL1REPL} ${UL2REPL} >> ${10}
