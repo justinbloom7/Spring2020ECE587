@@ -14,3 +14,25 @@ class CacheReplacementDB(DataBase):
                      "float", "float", "float", "float",
                      "int" ]
       super().__init__(fileName, fieldNames, fieldTypes)
+
+   def __multiplyVectors(this, v1, v2, scalar=1):
+      for idx in range(len(v1)):
+         v1[idx] = int(v1[idx] * v2[idx] * scalar)
+
+   def selectData(this, fieldName):
+      if (fieldName == "il1_ksize"):
+         data = super().selectData("il1_sets")
+         ways = super().selectData("il1_ways")
+         this.__multiplyVectors(data, ways, 64 / 1024)
+      elif (fieldName == "dl1_ksize"):
+         data = super().selectData("dl1_sets")
+         ways = super().selectData("dl1_ways")
+         this.__multiplyVectors(data, ways, 64 / 1024)
+      elif (fieldName == "ul2_ksize"):
+         data = super().selectData("ul2_sets")
+         ways = super().selectData("ul2_ways")
+         this.__multiplyVectors(data, ways, 64 / 1024)
+      else:
+         data = super().selectData(fieldName)
+         
+      return data

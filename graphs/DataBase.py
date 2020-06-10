@@ -5,6 +5,7 @@ class DataBase():
       this.fieldNames = fieldNames
       this.fieldTypes = fieldTypes
       this.__buildDB(fileName)
+      this.__currentData = None
       
    def addRecord(this, fields):
       record = {}
@@ -31,8 +32,9 @@ class DataBase():
             this.parseLine(line, idx)
             idx = idx + 1
    
-   def selectData(this, statement):
-      data = []
+   def queryData(this, statement, merge=False):
+      if (not merge):
+         this.__currentData = []
    
       for record in this.dataBase:
          match = True
@@ -41,9 +43,16 @@ class DataBase():
                match = False
                break
          if (match):
-            data.append(record)
+            this.__currentData.append(record)
          
-      return data
+      return this.__currentData
+      
+   def selectData(this, fieldName):
+      selData = []
+      for record in this.__currentData:
+         selData.append(record[fieldName])
+      
+      return selData
    
    def printData(this, data):
       for record in data:
